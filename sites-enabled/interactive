@@ -1,0 +1,29 @@
+server {
+    listen 80;
+    server_name localhost;
+    merge_slashes off;
+    rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
+    large_client_header_buffers 4 16k;
+    access_log /var/log/nginx/access.log json_combined;
+
+    location /api/ui-content/ {
+        resolver 127.0.0.1 valid=30s;
+
+        proxy_pass http://localnode:8031/;
+        
+        # index index.html index.htm;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade           $http_upgrade;
+        proxy_set_header Connection        keep-alive;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Region-Code $geoip2_data_country_code;
+        proxy_cache_bypass $http_upgrade;
+        proxy_cache_bypass $http_upgrade;
+        proxy_buffer_size 128k;
+        proxy_buffers 4 256k;
+        proxy_busy_buffers_size 256k;
+    }
+}
