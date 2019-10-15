@@ -1,11 +1,13 @@
 FROM ubuntu:latest
 
 RUN apt update
-RUN apt install -y build-essential libpcre3-dev zlib1g-dev \
-    libssl-dev libxslt1-dev software-properties-common wget vim
+RUN apt install -y software-properties-common
 RUN add-apt-repository -y ppa:maxmind/ppa
 RUN apt update
-RUN apt install -y libmaxminddb-dev geoipupdate
+
+RUN apt install -y \
+    libpcre3-dev zlib1g-dev libssl-dev libxslt1-dev\
+    build-essential wget vim luajit libmaxminddb-dev geoipupdate
 
 RUN geoipupdate -v
 
@@ -15,6 +17,12 @@ RUN tar -xzvf nginx-1.16.1.tar.gz
 
 RUN wget https://github.com/leev/ngx_http_geoip2_module/archive/3.0.tar.gz
 RUN tar -xzvf 3.0.tar.gz
+
+RUN wget https://github.com/openresty/headers-more-nginx-module/archive/v0.33.tar.gz
+RUN tar -xzvf v0.33.tar.gz
+
+RUN wget https://github.com/openresty/lua-nginx-module/archive/v0.10.15.tar.gz
+RUN tar -xzvf v0.10.15.tar.gz
 
 WORKDIR /usr/local/src/nginx-1.16.1
 
@@ -53,6 +61,8 @@ RUN ./configure \
 --with-stream_ssl_preread_module \
 --with-mail=dynamic              \
 --with-mail_ssl_module           \
+--add-dynamic-module=/usr/local/src/headers-more-nginx-module-0.33 \
+--add-dynamic-module=/usr/local/src/lua-nginx-module-0.10.15 \
 --add-dynamic-module=/usr/local/src/ngx_http_geoip2_module-3.0
 
 RUN make
@@ -65,5 +75,5 @@ WORKDIR /usr/share/nginx/
 RUN ln -s /usr/lib/nginx/modules modules
 RUN mkdir -p /var/lib/nginx/body
 
-CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
-# CMD tail -f /dev/null
+# CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+CMD tail -f /dev/null

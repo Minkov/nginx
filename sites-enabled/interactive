@@ -7,18 +7,21 @@ server {
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
     large_client_header_buffers 4 16k;
     access_log /var/log/nginx/access.log json_combined;
+    
+    set_by_lua_block $name_lower { return $name:lower() }
+    set_by_lua_block $region_lower { return $region:lower() }
 
-    if ( $region != BG ) {
+    if ( $region != bg ) {
         set $cond no_default_region;
     }
 
-    if ( $name != $region ) {
+    if ( $name_lower != $region_lower ) {
         set $cond "${cond}+not_same_region";
     }
     
-    if ( $cond = "no_default_region+not_same_region" ) {
-        return 307 $scheme://$region.$host$request_uri;
-    }
+    #if ( $cond = "no_default_region+not_same_region" ) {
+        # return 307 $scheme://$region.$host$request_uri;
+    #}
 
     location /api/ui-content/ {
         resolver 127.0.0.1 valid=30s;
@@ -33,9 +36,12 @@ server {
         proxy_set_header X-Real-IP         $remote_addr;
         proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Region-Code $geoip2_data_country_code;
+        # proxy_set_header X-Region-Code $geoip2_data_country_code;
         proxy_cache_bypass $http_upgrade;
         proxy_cache_bypass $http_upgrade;
+
+        more_set_headers 'X-My-Condition : $cond';
+        more_set_headers 'X-Region-Code : $geoip2_data_country_code';
 
         proxy_buffer_size 128k;
         proxy_buffers 4 256k;
