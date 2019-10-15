@@ -1,10 +1,11 @@
 FROM ubuntu:latest
 
 RUN apt update
-RUN apt install -y build-essential libpcre3-dev zlib1g-dev libssl-dev libxslt1-dev software-properties-common
+RUN apt install -y build-essential libpcre3-dev zlib1g-dev \
+    libssl-dev libxslt1-dev software-properties-common wget vim
 RUN add-apt-repository -y ppa:maxmind/ppa
 RUN apt update
-RUN apt install -y libmaxminddb-dev wget vim geoipupdate
+RUN apt install -y libmaxminddb-dev geoipupdate
 
 RUN geoipupdate -v
 
@@ -59,11 +60,10 @@ RUN make install
 
 WORKDIR /usr/sbin
 RUN ln -s /usr/share/nginx/sbin/nginx nginx
+
 WORKDIR /usr/share/nginx/
 RUN ln -s /usr/lib/nginx/modules modules
 RUN mkdir -p /var/lib/nginx/body
-RUN mkdir /etc/nginx/modules-enabled
-RUN mkdir /etc/nginx/sites-enabled
 
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
 # CMD tail -f /dev/null

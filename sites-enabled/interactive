@@ -1,12 +1,22 @@
 server {
     listen 80;
-    server_name localhost;
+    # server_name localhost;
+    server_name  ~^(?<name>.+)\.interactive.serveo.net$;
+
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
     large_client_header_buffers 4 16k;
     access_log /var/log/nginx/access.log json_combined;
 
     if ( $region != BG ) {
+        set $cond no_default_region;
+    }
+
+    if ( $name != $region ) {
+        set $cond "${cond}+not_same_region";
+    }
+    
+    if ( $cond = "no_default_region+not_same_region" ) {
         return 307 $scheme://$region.$host$request_uri;
     }
 
