@@ -13,4 +13,4 @@ services:
       - ./sites-enabled:/etc/nginx/sites-enabled
       - ./modules-enabled:/etc/nginx/modules-enabled
     extra_hosts:
-      - "localnode:192.168.14.26"
+      - "localnode:192.168.14.118"

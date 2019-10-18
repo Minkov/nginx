@@ -8,8 +8,8 @@ server {
     large_client_header_buffers 4 16k;
     access_log /var/log/nginx/access.log json_combined;
     
-    set_by_lua_block $name_lower { return $name:lower() }
-    set_by_lua_block $region_lower { return $region:lower() }
+    # set_by_lua_block $name_lower { return $name:lower() }
+    # set_by_lua_block $region_lower { return $region:lower() }
 
     if ( $region != bg ) {
         set $cond no_default_region;
