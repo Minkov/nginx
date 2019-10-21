@@ -3,6 +3,24 @@ server {
     # server_name localhost;
     server_name  ~^(?<name>.+)\.interactive.serveo.net$;
 
+    location / {
+        return 301 https://$host$request_uri;
+    }
+
+    location /.well-known/acme-challenge/ {
+       root /var/www/certbot;
+    }
+}
+
+server {
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    listen 443 ssl;
+    server_name  ~^(?<name>.+)\.interactive.serveo.net$;
+    ssl_certificate /etc/letsencrypt/live/interactive.serveo.net/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/interactive.serveo.net/privkey.pem;
+
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
     large_client_header_buffers 4 16k;
