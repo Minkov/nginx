@@ -26,15 +26,51 @@ server {
     large_client_header_buffers 4 16k;
     access_log /var/log/nginx/access.log json_combined;
 
-    location /api/ui-content/ {
+    location /api/learning-content/ {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://ui-content/;
+        proxy_pass http://learning_content/;
+    }
+
+    location /api/payments/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://payments/;
+    }
+
+    location /api/judge/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://judge/;
     }
 
     location /api/lms/ {
         include /etc/nginx/shared/*;
 
         proxy_pass http://lms/;
+    }
+
+    location /api/user-profiles/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://user_profiles/;
+    }
+
+    location /api/ui-content/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://ui_content/;
+    }
+
+    location /api/statistics/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://statistics/;
+    }
+
+    location / {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://ui/;
     }
 }
