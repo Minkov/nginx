@@ -1,7 +1,7 @@
 server {
     listen 80;
     # server_name localhost;
-    server_name  ~^(?<name>.+)\.interactive.serveo.net$;
+    server_name  ~^(?<name>.+)\.softuniorg.tk$;
 
     location / {
         return 301 https://$host$request_uri;
@@ -18,8 +18,8 @@ server {
 
     listen 443 ssl;
     server_name  ~^(?<name>.+)\.interactive-test.tk$;
-    ssl_certificate /etc/letsencrypt/live/interactive.serveo.net/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/interactive.serveo.net/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/softuniorg.tk/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/softuniorg.tk/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
@@ -29,13 +29,13 @@ server {
     # set_by_lua_block $name_lower { return $name:lower() }
     # set_by_lua_block $region_lower { return $region:lower() }
 
-    if ( $region != bg ) {
-        set $cond no_default_region;
-    }
+    # if ( $region != bg ) {
+    #    set $cond no_default_region;
+    #}
 
-    if ( $name_lower != $region_lower ) {
-        set $cond "${cond}+not_same_region";
-    }
+    #if ( $name_lower != $region_lower ) {
+    #    set $cond "${cond}+not_same_region";
+    #}
     
     #if ( $cond = "no_default_region+not_same_region" ) {
         # return 307 $scheme://$region.$host$request_uri;
@@ -58,7 +58,7 @@ server {
         proxy_cache_bypass $http_upgrade;
         proxy_cache_bypass $http_upgrade;
 
-        more_set_headers 'X-My-Condition : $cond';
+        # more_set_headers 'X-My-Condition : $cond';
         more_set_headers 'X-Region-Code : $geoip2_data_country_code';
 
         proxy_buffer_size 128k;

@@ -6,8 +6,8 @@ services:
     image: nginx-regions
     restart: unless-stopped
     ports:
-      - "8081:80"
-      - "44301:443"
+      - "443:80"
+      - "443:443"
     container_name: nginx-regions-container
     restart: on-failure
     volumes:

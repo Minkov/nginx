@@ -9,9 +9,9 @@ RUN apt install -y \
     libpcre3-dev zlib1g-dev libssl-dev libxslt1-dev git \
     build-essential wget vim libmaxminddb-dev geoipupdate
 
-ARG DEBIAN_FRONTEND=noninteractive
+# ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt install -y certbot
+# RUN apt install -y certbot
 
 RUN geoipupdate -v
 
@@ -41,7 +41,6 @@ RUN make install
 
 WORKDIR /usr/local/bin/luagit luagit
 RUN ln -s /usr/share/nginx/sbin/nginx nginx
-
 
 # Build Nginx
 
@@ -96,7 +95,7 @@ WORKDIR /usr/share/nginx/
 RUN ln -s /usr/lib/nginx/modules modules
 RUN mkdir -p /var/lib/nginx/body
 
-RUN certonly --email donchominkov@gmail.com --agree-tos -d example.com  -d www.example.com
+# RUN certonly --email donchominkov@gmail.com --agree-tos -d example.com  -d www.example.com
 
-CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+# CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
 # CMD tail -f /dev/null
