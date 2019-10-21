@@ -17,7 +17,7 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     listen 443 ssl;
-    server_name  ~^(?<name>.+)\.interactive-test.tk$;
+    server_name  ~^(?<name>.+)\.softuniorg.tk$;
     ssl_certificate /etc/letsencrypt/live/softuniorg.tk/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/softuniorg.tk/privkey.pem;
 
@@ -25,25 +25,16 @@ server {
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
     large_client_header_buffers 4 16k;
     access_log /var/log/nginx/access.log json_combined;
-    
-    # set_by_lua_block $name_lower { return $name:lower() }
-    # set_by_lua_block $region_lower { return $region:lower() }
-
-    # if ( $region != bg ) {
-    #    set $cond no_default_region;
-    #}
-
-    #if ( $name_lower != $region_lower ) {
-    #    set $cond "${cond}+not_same_region";
-    #}
-    
-    #if ( $cond = "no_default_region+not_same_region" ) {
-        # return 307 $scheme://$region.$host$request_uri;
-    #}
 
     location /api/ui-content/ {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://localnode:8031/;
+        proxy_pass http://ui-content/;
+    }
+
+    location /api/lms/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://lms/;
     }
 }
