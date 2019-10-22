@@ -2,18 +2,18 @@ version: '3.4'
 
 services:
   nginx:
-    build: .
-    image: nginx-regions
+    image: minkov/nginx:latest
     restart: unless-stopped
     ports:
       - "80:80"
       - "443:443"
-    container_name: nginx-regions-container
+    container_name: nginx_container
     restart: on-failure
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./sites-enabled:/etc/nginx/sites-enabled
       - ./modules-enabled:/etc/nginx/modules-enabled
+      - ./conf.d:/etc/nginx/conf.d
       - ./shared:/etc/nginx/shared
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
