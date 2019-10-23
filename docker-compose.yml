@@ -14,11 +14,12 @@ services:
       - ./sites-enabled:/etc/nginx/sites-enabled
       - ./modules-enabled:/etc/nginx/modules-enabled
       - ./conf.d:/etc/nginx/conf.d
+      - ./logs:/var/log/nginx
       - ./shared:/etc/nginx/shared
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     extra_hosts:
-      - "localnode:192.168.14.118"
+      - "localnode:193.107.70.35"
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   certbot:
     image: certbot/certbot
