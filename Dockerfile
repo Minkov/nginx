@@ -9,10 +9,6 @@ RUN apt install -y \
     libpcre3-dev zlib1g-dev libssl-dev libxslt1-dev git \
     build-essential wget vim libmaxminddb-dev geoipupdate
 
-# ARG DEBIAN_FRONTEND=noninteractive
-
-# RUN apt install -y certbot
-
 RUN geoipupdate -v
 
 # Nginx and modules
@@ -39,8 +35,8 @@ WORKDIR /usr/local/src/luajit2
 RUN make
 RUN make install
 
-WORKDIR /usr/local/bin/luagit luagit
-RUN ln -s /usr/share/nginx/sbin/nginx nginx
+ENV LUAJIT_LIB=/usr/local/lib
+ENV LUAJIT_INC=/usr/local/include/luajit-2.1
 
 # Build Nginx
 
@@ -82,7 +78,7 @@ RUN ./configure \
 --with-mail=dynamic              \
 --with-mail_ssl_module           \
 --add-dynamic-module=/usr/local/src/headers-more-nginx-module-0.33 \
-# --add-dynamic-module=/usr/local/src/lua-nginx-module-0.10.15 \
+--add-dynamic-module=/usr/local/src/lua-nginx-module-0.10.15 \
 --add-dynamic-module=/usr/local/src/ngx_http_geoip2_module-3.0
 
 RUN make
@@ -95,7 +91,6 @@ WORKDIR /usr/share/nginx/
 RUN ln -s /usr/lib/nginx/modules modules
 RUN mkdir -p /var/lib/nginx/body
 
-# RUN certonly --email donchominkov@gmail.com --agree-tos -d example.com  -d www.example.com
 
-# CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
 # CMD tail -f /dev/null

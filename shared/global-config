@@ -9,7 +9,6 @@ proxy_set_header X-Forwarded-Proto $scheme;
 proxy_cache_bypass $http_upgrade;
 proxy_cache_bypass $http_upgrade;
 
-# more_set_headers 'X-My-Condition : $cond';
 more_set_headers 'X-Region-Code : $geoip2_data_country_code';
 
 proxy_buffer_size 128k;
