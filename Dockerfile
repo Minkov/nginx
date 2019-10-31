@@ -11,6 +11,18 @@ RUN apt install -y \
 
 RUN geoipupdate -v
 
+# Install LuaJit
+
+WORKDIR /usr/local/src/
+
+RUN git clone https://github.com/openresty/luajit2.git
+WORKDIR /usr/local/src/luajit2
+RUN make
+RUN make install
+
+ENV LUAJIT_LIB=/usr/local/lib
+ENV LUAJIT_INC=/usr/local/include/luajit-2.1
+
 # Nginx and modules
 WORKDIR /usr/local/src/
 
@@ -25,18 +37,6 @@ RUN tar -xzvf v0.33.tar.gz
 
 RUN wget https://github.com/openresty/lua-nginx-module/archive/v0.10.15.tar.gz
 RUN tar -xzvf v0.10.15.tar.gz
-
-# LuaJit
-
-WORKDIR /usr/local/src/
-
-RUN git clone https://github.com/openresty/luajit2.git
-WORKDIR /usr/local/src/luajit2
-RUN make
-RUN make install
-
-ENV LUAJIT_LIB=/usr/local/lib
-ENV LUAJIT_INC=/usr/local/include/luajit-2.1
 
 # Build Nginx
 
@@ -90,7 +90,7 @@ RUN ln -s /usr/share/nginx/sbin/nginx nginx
 WORKDIR /usr/share/nginx/
 RUN ln -s /usr/lib/nginx/modules modules
 RUN mkdir -p /var/lib/nginx/body
-
+ENV LD_LIBRARY_PATH=/usr/local/lib
 
 CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
 # CMD tail -f /dev/null
