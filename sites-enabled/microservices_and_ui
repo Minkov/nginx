@@ -17,8 +17,10 @@ server {
     # ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     listen 80;
+
     server_name interactive.serveo.net;
-    server_name ro.interactive.serveo.net;
+    server_name ~^(?<name>.+)\.interactive.serveo.net;
+
     # ssl_certificate /etc/letsencrypt/live/softuniorg.tk/fullchain.pem;
     # ssl_certificate_key /etc/letsencrypt/live/softuniorg.tk/privkey.pem;
 
