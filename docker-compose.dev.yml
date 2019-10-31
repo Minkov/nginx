@@ -14,9 +14,10 @@ services:
       - ./sites-enabled:/etc/nginx/sites-enabled
       - ./modules-enabled:/etc/nginx/modules-enabled
       - ./conf.d:/etc/nginx/conf.d
+      - ./lua:/etc/nginx/lua
       - ./logs:/var/log/nginx
       - ./shared:/etc/nginx/shared
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     extra_hosts:
-      - "localnode:192.168.14.138"
+      - "localnode:10.5.50.207"
