@@ -1,9 +1,6 @@
-if ngx.var.region == 'RO' and ngx.var.name == 'ro'
+if ngx.var.region == 'RO' and ngx.var.name ~= 'ro'
 then
-    ngx.var.is_ok = 'yes'
-elseif ngx.var.region == 'RO' and ngx.var.name ~= 'ro'
-then
-    ngx.var.is_ok = 'no'
-else
-    ngx.var.is_ok = 'yes'
+    ngx.redirect("https://google.com")
 end
+
+ngx.exit(ngx.OK)
