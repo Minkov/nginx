@@ -40,6 +40,7 @@ RUN tar -xzvf v0.10.15.tar.gz
 
 # Build Nginx
 
+WORKDIR /usr/sbin
 WORKDIR /usr/local/src/nginx-1.16.1
 
 RUN ./configure \
@@ -91,6 +92,3 @@ WORKDIR /usr/share/nginx/
 RUN ln -s /usr/lib/nginx/modules modules
 RUN mkdir -p /var/lib/nginx/body
 ENV LD_LIBRARY_PATH=/usr/local/lib
-
-CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
-# CMD tail -f /dev/null
