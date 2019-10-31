@@ -20,4 +20,4 @@ services:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     extra_hosts:
-      - "localnode:10.5.50.207"
+      - "localnode:192.168.1.3"

@@ -1,6 +1,6 @@
 if ngx.var.region == 'RO' and ngx.var.name ~= 'ro'
 then
-    ngx.redirect("https://google.com")
+    ngx.redirect("https://ro.interactive.serveo.net")
 end
 
-ngx.exit(ngx.OK)
+-- ngx.exit(ngx.OK)
