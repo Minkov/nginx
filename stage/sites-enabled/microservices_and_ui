@@ -1,14 +1,15 @@
 server {
     listen 80;
-    # server_name localhost;
-    server_name  ~^(?<name>.+)\.softuniorg.tk$;
+
+    server_name  ~^(?<name>.+)\.stage.softuni.org;
+    server_name  stage.softuni.org;
 
     location / {
-        return 301 https://$host$request_uri;
+      return 301 https://$host$request_uri;
     }
 
     location /.well-known/acme-challenge/ {
-       root /var/www/certbot;
+      root /var/www/certbot;
     }
 }
 
@@ -17,9 +18,12 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     listen 443 ssl;
-    server_name  ~^(?<name>.+)\.softuniorg.tk$;
-    ssl_certificate /etc/letsencrypt/live/softuniorg.tk/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/softuniorg.tk/privkey.pem;
+
+    server_name stage.softuni.org;
+    server_name ~^(?<name>.+)\.stage.softuni.org;
+
+    ssl_certificate /etc/letsencrypt/live/stage.softuni.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/stage.softuni.org/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
@@ -69,8 +73,9 @@ server {
     }
 
     location / {
-        include /etc/nginx/shared/*;
+    	access_by_lua_file '/etc/nginx/lua/region_based_url.lua';
 
+        include /etc/nginx/shared/*;
         proxy_pass http://ui/;
     }
 }

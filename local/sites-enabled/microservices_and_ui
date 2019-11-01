@@ -1,0 +1,60 @@
+server {
+    listen 80;
+
+    server_name  ~^(?<name>.+)\.interactive.serveo.net;
+    server_name  interactive.serveo.net;
+
+    merge_slashes off;
+    rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
+    large_client_header_buffers 4 16k;
+    access_log /var/log/nginx/access.log json_combined;
+
+    location /api/learning-content/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://learning_content/;
+    }
+
+    location /api/payments/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://payments/;
+    }
+
+    location /api/judge/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://judge/;
+    }
+
+    location /api/lms/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://lms/;
+    }
+
+    location /api/user-profiles/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://user_profiles/;
+    }
+
+    location /api/ui-content/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://ui_content/;
+    }
+
+    location /api/statistics/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://statistics/;
+    }
+
+    location / {
+    	access_by_lua_file '/etc/nginx/lua/region_based_url.lua';
+
+        include /etc/nginx/shared/*;
+        proxy_pass http://ui/;
+    }
+}
