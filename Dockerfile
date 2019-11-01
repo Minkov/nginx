@@ -40,7 +40,6 @@ RUN tar -xzvf v0.10.15.tar.gz
 
 # Build Nginx
 
-WORKDIR /usr/sbin
 WORKDIR /usr/local/src/nginx-1.16.1
 
 RUN ./configure \

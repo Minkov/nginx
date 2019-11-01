@@ -22,8 +22,8 @@ server {
     server_name development.softuni.org;
     server_name ~^(?<name>.+)\.development.softuni.org;
 
-    ssl_certificate /etc/letsencrypt/live/development.softuni.org/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/development.softuni.org/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/build.softuni.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/build.softuni.org/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
