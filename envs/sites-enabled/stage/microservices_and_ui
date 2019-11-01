@@ -34,49 +34,49 @@ server {
     location /api/learning-content/ {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://learning_content/;
+        proxy_pass http://stage_learning_content/;
     }
 
     location /api/payments/ {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://payments/;
+        proxy_pass http://stage_payments/;
     }
 
     location /api/judge/ {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://judge/;
+        proxy_pass http://stage_judge/;
     }
 
     location /api/lms/ {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://lms/;
+        proxy_pass http://stage_lms/;
     }
 
     location /api/user-profiles/ {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://user_profiles/;
+        proxy_pass http://stage_user_profiles/;
     }
 
     location /api/ui-content/ {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://ui_content/;
+        proxy_pass http://stage_ui_content/;
     }
 
     location /api/statistics/ {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://statistics/;
+        proxy_pass http://stage_statistics/;
     }
 
     location / {
     	access_by_lua_file '/etc/nginx/lua/region_based_url.lua';
 
         include /etc/nginx/shared/*;
-        proxy_pass http://ui/;
+        proxy_pass http://stage_ui/;
     }
 }

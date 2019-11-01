@@ -28,6 +28,6 @@ server {
     location / {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://administration/;
+        proxy_pass http://dev_administration/;
     }
 }

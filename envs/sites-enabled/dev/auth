@@ -29,6 +29,6 @@ server {
     location / {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://auth/;
+        proxy_pass http://dev_auth/;
     }
 }
