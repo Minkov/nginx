@@ -5,10 +5,11 @@ services:
     image: minkov/nginx:latest
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
     container_name: nginx_container
     restart: on-failure
+    network_mode: host
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./sites-enabled:/etc/nginx/sites-enabled
@@ -19,8 +20,6 @@ services:
       - ./shared:/etc/nginx/shared
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
-    extra_hosts:
-      - "localnode:193.107.70.13"
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   certbot:
     image: certbot/certbot
