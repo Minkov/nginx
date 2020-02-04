@@ -60,17 +60,36 @@ server {
         proxy_pass http://user_profiles/;
     }
 
+    location /api/statistics/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://statistics/;
+    }
+
     location /api/ui-content/ {
         include /etc/nginx/shared/*;
 
         proxy_pass http://ui_content/;
     }
 
-    location /api/statistics/ {
+    location /api/scheduler/ {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://statistics/;
+        proxy_pass http://scheduler/;
     }
+
+    location /api/notifications/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://notifications/;
+    }
+
+    location /api/emails/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://emails/;
+    }
+
 
     location / {
     	access_by_lua_file '/etc/nginx/lua/region_based_url.lua';
