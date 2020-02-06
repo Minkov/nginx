@@ -5,8 +5,8 @@ services:
     image: minkov/nginx:latest
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
     container_name: nginx_container
     restart: on-failure
     volumes:
