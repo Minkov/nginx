@@ -1,0 +1,24 @@
+server {
+    listen 80;
+
+    server_name test.softuni.com;
+    server_name ~^(?<name>.+)\.test.softuni.com;
+
+    merge_slashes off;
+    rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
+    large_client_header_buffers 4 16k;
+    access_log /var/log/nginx/access.log json_combined;
+
+    location /api/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://gateway/api/;
+    }
+
+    location / {
+    	access_by_lua_file '/etc/nginx/lua/region_based_url.lua';
+
+        include /etc/nginx/shared/*;
+        proxy_pass http://ui/;
+    }
+}
