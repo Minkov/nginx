@@ -1,0 +1,24 @@
+proxy_http_version 1.1;
+proxy_set_header Upgrade           $http_upgrade;
+proxy_set_header Connection        keep-alive;
+proxy_set_header Host              $host;
+proxy_set_header X-Real-IP         $remote_addr;
+proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header X-Region-Code $geoip2_data_country_code;
+proxy_cache_bypass $http_upgrade;
+proxy_cache_bypass $http_upgrade;
+
+set $region_selected_header "BG";
+
+if ($name = "ro") {
+   set $region_selected_header "RO";
+}
+
+proxy_set_header X-Region-Selected $region_selected_header;
+
+proxy_buffer_size 128k;
+proxy_buffers 4 256k;
+proxy_busy_buffers_size 256k;
+
+
