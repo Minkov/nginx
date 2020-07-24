@@ -90,6 +90,12 @@ server {
         proxy_pass http://emails/;
     }
 
+    location /api/submissions/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://submissions/;
+    }
+
 
     location / {
     	access_by_lua_file '/etc/nginx/lua/region_based_url.lua';
