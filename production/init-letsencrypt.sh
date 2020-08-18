@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(softuni.org ro.softuni.org auth.softuni.org admin.softuni.org)
+domains=(softuni.org ro.softuni.org auth.softuni.org admin.softuni.org softuni.co.za)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="donchominkov@gmail.com" # Adding a valid address is strongly recommended

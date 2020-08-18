@@ -3,6 +3,7 @@ server {
 
     server_name  ~^(?<name>.+)\.softuni.org;
     server_name  softuni.org;
+    server_name softuni.co.za;
 
     location / {
       return 301 https://$host$request_uri;
@@ -21,6 +22,7 @@ server {
 
     server_name softuni.org;
     server_name ~^(?<name>.+)\.softuni.org;
+    server_name softuni.co.za;
 
     ssl_certificate /etc/letsencrypt/live/softuni.org/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/softuni.org/privkey.pem;

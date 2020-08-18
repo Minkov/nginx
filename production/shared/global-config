@@ -15,6 +15,10 @@ if ($name = "ro") {
    set $region_selected_header "RO";
 }
 
+if ($host = "softuni.co.za") {
+   set $region_selected_header "ZA";
+}
+
 proxy_set_header X-Region-Selected $region_selected_header;
 
 proxy_buffer_size 128k;
