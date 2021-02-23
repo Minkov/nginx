@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  nginx:
+    image: minkov/nginx:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
+    container_name: nginx_container
+    restart: on-failure
+    network_mode: host
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./sites-enabled:/etc/nginx/sites-enabled
+      - ./modules-enabled:/etc/nginx/modules-enabled
+      - ./conf.d:/etc/nginx/conf.d
+      - ./lua:/etc/nginx/lua
+      - ./logs:/var/log/nginx
+      - ./shared:/etc/nginx/shared
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    volumes:
+        - ./data/certbot/conf:/etc/letsencrypt
+        - ./data/certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"

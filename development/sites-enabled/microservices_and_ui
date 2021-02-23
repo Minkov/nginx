@@ -1,0 +1,45 @@
+server {
+    listen 80;
+
+    server_name  ~^(?<name>.+)\.development.softuni.org;
+    server_name  development.softuni.org;
+
+    location / {
+      return 301 https://$host$request_uri;
+    }
+
+    location /.well-known/acme-challenge/ {
+      root /var/www/certbot;
+    }
+}
+
+server {
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    listen 443 ssl;
+
+    server_name development.softuni.org;
+    server_name ~^(?<name>.+)\.development.softuni.org;
+
+    ssl_certificate /etc/letsencrypt/live/development.softuni.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/development.softuni.org/privkey.pem;
+
+    merge_slashes off;
+    rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
+    large_client_header_buffers 4 16k;
+    access_log /var/log/nginx/access.log json_combined;
+
+    location /api/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://gateway/api/;
+    }
+
+    location / {
+    	access_by_lua_file '/etc/nginx/lua/region_based_url.lua';
+
+        include /etc/nginx/shared/*;
+        proxy_pass http://ui/;
+    }
+}
