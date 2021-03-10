@@ -1,8 +1,8 @@
 server {
     listen 80;
     # server_name localhost;
-    server_name  ~^(?<name>.+)\.helphelpcenter.stage.softuni.org;
-    server_name  helphelpcenter.stage.softuni.org;
+    server_name  ~^(?<name>.+)\.helphelpcenter.stage.softuni.tk;
+    server_name  helphelpcenter.stage.softuni.tk;
 
     location / {
         return 301 https://$host$request_uri;
@@ -18,8 +18,8 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     listen 443 ssl;
-    server_name  helphelpcenter.stage.softuni.org;
-    server_name ~^(?<name>.+)\.helphelpcenter.stage.softuni.org;
+    server_name  helphelpcenter.stage.softuni.tk;
+    server_name ~^(?<name>.+)\.helphelpcenter.stage.softuni.tk;
     ssl_certificate /etc/letsencrypt/live/devsoftuniorg.ml/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/devsoftuniorg.ml/privkey.pem;
 
