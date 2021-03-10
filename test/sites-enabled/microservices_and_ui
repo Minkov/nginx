@@ -1,8 +1,8 @@
 server {
     listen 80;
 
-    server_name  ~^(?<name>.+)\.test.softuni.org;
-    server_name  test.softuni.org;
+    server_name  ~^(?<name>.+)\.testsoftuniorg.ml;
+    server_name  testsoftuniorg.ml;
 
     location / {
       return 301 https://$host$request_uri;
@@ -19,11 +19,11 @@ server {
 
     listen 443 ssl;
 
-    server_name test.softuni.org;
-    server_name ~^(?<name>.+)\.test.softuni.org;
+    server_name testsoftuniorg.ml;
+    server_name ~^(?<name>.+)\.testsoftuniorg.ml;
 
-    ssl_certificate /etc/letsencrypt/live/test.softuni.org/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/test.softuni.org/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/testsoftuniorg.ml/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/testsoftuniorg.ml/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;

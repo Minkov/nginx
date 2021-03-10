@@ -1,7 +1,8 @@
 server {
     listen 80;
     # server_name localhost;
-    server_name  auth.devsoftuniorg.ml;
+    server_name  ~^(?<name>.+)\.helpcenter.softuni.org;
+    server_name  helpcenter.softuni.org;
 
     location / {
         return 301 https://$host$request_uri;
@@ -17,9 +18,10 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     listen 443 ssl;
-    server_name  auth.devsoftuniorg.ml;
-    ssl_certificate /etc/letsencrypt/live/devsoftuniorg.ml/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/devsoftuniorg.ml/privkey.pem;
+    server_name  helpcenter.softuni.org;
+    server_name ~^(?<name>.+)\.helpcenter.softuni.org;
+    ssl_certificate /etc/letsencrypt/live/softuni.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/softuni.org/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
@@ -29,6 +31,6 @@ server {
     location / {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://auth/;
+        proxy_pass http://help_center_ui/;
     }
 }
