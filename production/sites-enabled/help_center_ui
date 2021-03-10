@@ -20,8 +20,8 @@ server {
     listen 443 ssl;
     server_name  helpcenter.softuni.org;
     server_name ~^(?<name>.+)\.helpcenter.softuni.org;
-    ssl_certificate /etc/letsencrypt/live/devsoftuniorg.ml/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/devsoftuniorg.ml/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/softuni.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/softuni.org/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;

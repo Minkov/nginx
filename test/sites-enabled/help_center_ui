@@ -20,8 +20,8 @@ server {
     listen 443 ssl;
     server_name  helpcenter.testsoftuniorg.ml;
     server_name ~^(?<name>.+)\.helpcenter.testsoftuniorg.ml;
-    ssl_certificate /etc/letsencrypt/live/devsoftuniorg.ml/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/devsoftuniorg.ml/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/testsoftuniorg.ml/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/testsoftuniorg.ml/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
