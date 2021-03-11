@@ -1,54 +1,39 @@
 server {
     listen 80;
 
-    server_name  ~^(?<name>.+)\.interactive.serveo.net;
-    server_name  interactive.serveo.net;
+    server_name  ~^(?<name>.+)\.softuniorg.com;
+    server_name  softuniorg.com;
+
+    location / {
+      return 301 https://$host$request_uri;
+    }
+
+    location /.well-known/acme-challenge/ {
+      root /var/www/certbot;
+    }
+}
+
+server {
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    listen 443 ssl;
+
+    server_name softuniorg.com;
+    server_name ~^(?<name>.+)\.softuniorg.com;
+
+    ssl_certificate /etc/letsencrypt/live/softuniorg.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/softuniorg.com/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
     large_client_header_buffers 4 16k;
     access_log /var/log/nginx/access.log json_combined;
 
-    location /api/learning-content/ {
+    location /api/ {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://learning_content/;
-    }
-
-    location /api/payments/ {
-        include /etc/nginx/shared/*;
-
-        proxy_pass http://payments/;
-    }
-
-    location /api/judge/ {
-        include /etc/nginx/shared/*;
-
-        proxy_pass http://judge/;
-    }
-
-    location /api/lms/ {
-        include /etc/nginx/shared/*;
-
-        proxy_pass http://lms/;
-    }
-
-    location /api/user-profiles/ {
-        include /etc/nginx/shared/*;
-
-        proxy_pass http://user_profiles/;
-    }
-
-    location /api/ui-content/ {
-        include /etc/nginx/shared/*;
-
-        proxy_pass http://ui_content/;
-    }
-
-    location /api/statistics/ {
-        include /etc/nginx/shared/*;
-
-        proxy_pass http://statistics/;
+        proxy_pass http://gateway/api/;
     }
 
     location / {
