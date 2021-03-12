@@ -1,27 +1,8 @@
 server {
     listen 80;
-    # server_name localhost;
-    server_name  ~^(?<name>.+)\.helpcenter.softuniorg.com;
-    server_name  helpcenter.softuniorg.com;
 
-    location / {
-        return 301 https://$host$request_uri;
-    }
-
-    location /.well-known/acme-challenge/ {
-       root /var/www/certbot;
-    }
-}
-
-server {
-    include /etc/letsencrypt/options-ssl-nginx.conf;
-    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
-
-    listen 443 ssl;
     server_name  helpcenter.softuniorg.com;
     server_name ~^(?<name>.+)\.helpcenter.softuniorg.com;
-    ssl_certificate /etc/letsencrypt/live/softuniorg.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/softuniorg.com/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
