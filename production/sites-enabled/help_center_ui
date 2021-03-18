@@ -4,6 +4,12 @@ server {
     server_name  ~^(?<name>.+)\.helpcenter.softuni.org;
     server_name  helpcenter.softuni.org;
 
+    location /api/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://gateway/api/;
+    }
+
     location / {
         return 301 https://$host$request_uri;
     }
