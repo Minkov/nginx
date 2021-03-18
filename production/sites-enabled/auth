@@ -3,12 +3,6 @@ server {
     # server_name localhost;
     server_name  auth.softuni.org;
 
-    location /api/ {
-        include /etc/nginx/shared/*;
-
-        proxy_pass http://gateway/api/;
-    }
-
     location / {
         return 301 https://$host$request_uri;
     }
@@ -31,6 +25,12 @@ server {
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
     large_client_header_buffers 4 16k;
     access_log /var/log/nginx/access.log json_combined;
+
+    location /api/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://gateway/api/;
+    }
 
     location / {
         include /etc/nginx/shared/*;
