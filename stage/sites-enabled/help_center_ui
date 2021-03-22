@@ -1,8 +1,9 @@
 server {
     listen 80;
-    # server_name localhost;
-    server_name  ~^(?<name>.+)\.helpcenter.stage.softuni.tk;
+
     server_name  helpcenter.stage.softuni.tk;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name  ~^(?<name>.+)\.helpcenter.stage.softuni.tk;
 
     location / {
         return 301 https://$host$request_uri;
@@ -18,8 +19,11 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     listen 443 ssl;
+
     server_name  helpcenter.stage.softuni.tk;
-    server_name ~^(?<name>.+)\.helpcenter.stage.softuni.tk;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name ~^(?<name>.+)\.helpcenter.stage.softuni.tk;
+
     ssl_certificate /etc/letsencrypt/live/stage.softuni.tk/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/stage.softuni.tk/privkey.pem;
 
@@ -39,4 +43,20 @@ server {
 
         proxy_pass http://help_center_ui/;
     }
+}
+
+server {
+    listen 80;
+
+    server_name ~^(?<name>.+)\.helpcenter.stage.softuni.tk;
+
+    return 301 $scheme://helpcenter.stage.softuni.tk$request_uri;
+}
+
+server {
+    listen 443 ssl;
+
+    server_name ~^(?<name>.+)\.helpcenter.stage.softuni.tk;
+
+    return 301 $scheme://helpcenter.stage.softuni.tk$request_uri;
 }

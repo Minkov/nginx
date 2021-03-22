@@ -1,8 +1,10 @@
 server {
     listen 80;
-    # server_name localhost;
-    server_name  ~^(?<name>.+)\.helpcenter.testsoftuniorg.ml;
+
     server_name  helpcenter.testsoftuniorg.ml;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name  ~^(?<name>.+)\.helpcenter.testsoftuniorg.ml;
+
 
     location / {
         return 301 https://$host$request_uri;
@@ -18,8 +20,11 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     listen 443 ssl;
+    
     server_name  helpcenter.testsoftuniorg.ml;
-    server_name ~^(?<name>.+)\.helpcenter.testsoftuniorg.ml;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name ~^(?<name>.+)\.helpcenter.testsoftuniorg.ml;
+
     ssl_certificate /etc/letsencrypt/live/testsoftuniorg.ml/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/testsoftuniorg.ml/privkey.pem;
 
@@ -39,4 +44,20 @@ server {
 
         proxy_pass http://help_center_ui/;
     }
+}
+
+server {
+    listen 80;
+
+    server_name ~^(?<name>.+)\.helpcenter.testsoftuniorg.ml;
+
+    return 301 $scheme://helpcenter.testsoftuniorg.ml$request_uri;
+}
+
+server {
+    listen 443 ssl;
+
+    server_name ~^(?<name>.+)\.helpcenter.testsoftuniorg.ml;
+
+    return 301 $scheme://helpcenter.testsoftuniorg.ml$request_uri;
 }

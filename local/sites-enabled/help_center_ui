@@ -2,7 +2,8 @@ server {
     listen 80;
 
     server_name  helpcenter.softuniorg.com;
-    server_name ~^(?<name>.+)\.helpcenter.softuniorg.com;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name ~^(?<name>.+)\.helpcenter.softuniorg.com;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
@@ -20,4 +21,12 @@ server {
 
         proxy_pass http://help_center_ui/;
     }
+}
+
+server {
+    listen 80;
+
+    server_name ~^(?<name>.+)\.helpcenter.softuniorg.com;
+
+    return 301 $scheme://softuniorg.com$request_uri;
 }
