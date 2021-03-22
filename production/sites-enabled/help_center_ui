@@ -1,8 +1,9 @@
 server {
     listen 80;
-    # server_name localhost;
-    server_name  ~^(?<name>.+)\.helpcenter.softuni.org;
+    
     server_name  helpcenter.softuni.org;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name  ~^(?<name>.+)\.helpcenter.softuni.org;
 
     location / {
         return 301 https://$host$request_uri;
@@ -18,8 +19,11 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     listen 443 ssl;
+
     server_name  helpcenter.softuni.org;
-    server_name ~^(?<name>.+)\.helpcenter.softuni.org;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name ~^(?<name>.+)\.helpcenter.softuni.org;
+
     ssl_certificate /etc/letsencrypt/live/softuni.org/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/softuni.org/privkey.pem;
 
@@ -28,9 +32,31 @@ server {
     large_client_header_buffers 4 16k;
     access_log /var/log/nginx/access.log json_combined;
 
+    location /api/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://gateway/api/;
+    }
+
     location / {
         include /etc/nginx/shared/*;
 
         proxy_pass http://help_center_ui/;
     }
+}
+
+server {
+    listen 80;
+
+    server_name ~^(?<name>.+)\.helpcenter.softuni.org;
+
+    return 301 $scheme://helpcenter.softuni.org$request_uri;
+}
+
+server {
+    listen 443 ssl;
+
+    server_name ~^(?<name>.+)\.helpcenter.softuni.org;
+
+    return 301 $scheme://helpcenter.softuni.org$request_uri;
 }

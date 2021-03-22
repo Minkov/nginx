@@ -1,8 +1,9 @@
 server {
     listen 80;
 
-    server_name  ~^(?<name>.+)\.devsoftuniorg.ml;
     server_name  devsoftuniorg.ml;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name  ~^(?<name>.+)\.devsoftuniorg.ml;
 
     location / {
       return 301 https://$host$request_uri;
@@ -20,7 +21,9 @@ server {
     listen 443 ssl;
 
     server_name devsoftuniorg.ml;
-    server_name ~^(?<name>.+)\.devsoftuniorg.ml;
+
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name ~^(?<name>.+)\.devsoftuniorg.ml;
 
     ssl_certificate /etc/letsencrypt/live/devsoftuniorg.ml/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/devsoftuniorg.ml/privkey.pem;
@@ -42,4 +45,20 @@ server {
         include /etc/nginx/shared/*;
         proxy_pass http://ui/;
     }
+}
+
+server {
+    listen 80;
+
+    server_name ~^(?<name>.+)\.devsoftuniorg.ml;
+
+    return 301 $scheme://devsoftuniorg.ml$request_uri;
+}
+
+server {
+    listen 443 ssl;
+
+    server_name ~^(?<name>.+)\.devsoftuniorg.ml;
+
+    return 301 $scheme://devsoftuniorg.ml$request_uri;
 }

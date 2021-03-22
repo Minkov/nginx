@@ -1,9 +1,10 @@
 server {
     listen 80;
 
-    server_name  ~^(?<name>.+)\.testsoftuniorg.ml;
     server_name  testsoftuniorg.ml;
-
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name  ~^(?<name>.+)\.testsoftuniorg.ml;
+    
     location / {
       return 301 https://$host$request_uri;
     }
@@ -20,7 +21,8 @@ server {
     listen 443 ssl;
 
     server_name testsoftuniorg.ml;
-    server_name ~^(?<name>.+)\.testsoftuniorg.ml;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name ~^(?<name>.+)\.testsoftuniorg.ml;
 
     ssl_certificate /etc/letsencrypt/live/testsoftuniorg.ml/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/testsoftuniorg.ml/privkey.pem;
@@ -42,4 +44,20 @@ server {
         include /etc/nginx/shared/*;
         proxy_pass http://ui/;
     }
+}
+
+server {
+    listen 80;
+
+    server_name ~^(?<name>.+)\.testsoftuniorg.ml;
+
+    return 301 $scheme://testsoftuniorg.ml$request_uri;
+}
+
+server {
+    listen 443 ssl;
+
+    server_name ~^(?<name>.+)\.testsoftuniorg.ml;
+
+    return 301 $scheme://testsoftuniorg.ml$request_uri;
 }

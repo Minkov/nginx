@@ -1,9 +1,10 @@
 server {
     listen 80;
 
-    server_name  ~^(?<name>.+)\.softuni.org;
     server_name  softuni.org;
-    server_name softuni.co.za;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name  ~^(?<name>.+)\.softuni.org;
+    # server_name softuni.co.za;
 
     location / {
       return 301 https://$host$request_uri;
@@ -21,8 +22,9 @@ server {
     listen 443 ssl;
 
     server_name softuni.org;
-    server_name ~^(?<name>.+)\.softuni.org;
-    server_name softuni.co.za;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name ~^(?<name>.+)\.softuni.org;
+    # server_name softuni.co.za;
 
     ssl_certificate /etc/letsencrypt/live/softuni.org/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/softuni.org/privkey.pem;
@@ -44,4 +46,20 @@ server {
         include /etc/nginx/shared/*;
         proxy_pass http://ui/;
     }
+}
+
+server {
+    listen 80;
+
+    server_name ~^(?<name>.+)\.softuni.org;
+
+    return 301 $scheme://softuni.org$request_uri;
+}
+
+server {
+    listen 443 ssl;
+
+    server_name ~^(?<name>.+)\.softuni.org;
+
+    return 301 $scheme://softuni.org$request_uri;
 }
