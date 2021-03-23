@@ -52,6 +52,7 @@ server {
     listen 80;
 
     server_name ~^(?<name>.+)\.softuni.org;
+    server_name softuni.co.za;
 
     return 301 $scheme://softuni.org$request_uri;
 }
@@ -60,6 +61,7 @@ server {
     listen 443 ssl;
 
     server_name ~^(?<name>.+)\.softuni.org;
+    server_name softuni.co.za;
 
     return 301 $scheme://softuni.org$request_uri;
 }
