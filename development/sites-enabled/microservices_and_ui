@@ -1,9 +1,9 @@
 server {
     listen 80;
 
-    server_name  devsoftuniorg.ml;
+    server_name  development.softuni.tk;
     # Intentionally commented out with option to revert easily regions selection logic
-    # server_name  ~^(?<name>.+)\.devsoftuniorg.ml;
+    # server_name  ~^(?<name>.+)\.development.softuni.tk;
 
     location / {
       return 301 https://$host$request_uri;
@@ -20,13 +20,13 @@ server {
 
     listen 443 ssl;
 
-    server_name devsoftuniorg.ml;
+    server_name development.softuni.tk;
 
     # Intentionally commented out with option to revert easily regions selection logic
-    # server_name ~^(?<name>.+)\.devsoftuniorg.ml;
+    # server_name ~^(?<name>.+)\.development.softuni.tk;
 
-    ssl_certificate /etc/letsencrypt/live/devsoftuniorg.ml/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/devsoftuniorg.ml/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/development.softuni.tk/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/development.softuni.tk/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
@@ -50,15 +50,15 @@ server {
 server {
     listen 80;
 
-    server_name ~^(?<name>.+)\.devsoftuniorg.ml;
+    server_name ~^(?<name>.+)\.development.softuni.tk;
 
-    return 301 $scheme://devsoftuniorg.ml$request_uri;
+    return 301 $scheme://development.softuni.tk$request_uri;
 }
 
 server {
     listen 443 ssl;
 
-    server_name ~^(?<name>.+)\.devsoftuniorg.ml;
+    server_name ~^(?<name>.+)\.development.softuni.tk;
 
-    return 301 $scheme://devsoftuniorg.ml$request_uri;
+    return 301 $scheme://development.softuni.tk$request_uri;
 }
