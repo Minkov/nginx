@@ -1,7 +1,7 @@
 server {
     listen 80;
     # server_name localhost;
-    server_name admin.devsoftuniorg.ml;
+    server_name admin.development.softuni.tk;
 
     location / {
         return 301 https://$host$request_uri;
@@ -17,9 +17,9 @@ server {
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
 
     listen 443 ssl;
-    server_name  admin.devsoftuniorg.ml;
-    ssl_certificate /etc/letsencrypt/live/devsoftuniorg.ml/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/devsoftuniorg.ml/privkey.pem;
+    server_name  admin.development.softuni.tk;
+    ssl_certificate /etc/letsencrypt/live/development.softuni.tk/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/development.softuni.tk/privkey.pem;
 
     merge_slashes off;
     large_client_header_buffers 4 16k;
