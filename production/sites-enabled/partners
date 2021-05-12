@@ -24,8 +24,8 @@ server {
     # Intentionally commented out with option to revert easily regions selection logic
     # server_name ~^(?<name>.+)\.partners.softuni.org;
 
-    ssl_certificate /etc/letsencrypt/live/development.softuni.tk/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/development.softuni.tk/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/softuni.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/softuni.org/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
