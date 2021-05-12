@@ -1,0 +1,56 @@
+server {
+    listen 80;
+
+    server_name  partners.stage.softuni.tk;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name  ~^(?<name>.+)\.partners.stage.softuni.tk;
+
+    location / {
+        return 301 https://$host$request_uri;
+    }
+
+    location /.well-known/acme-challenge/ {
+       root /var/www/certbot;
+    }
+}
+
+server {
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    listen 443 ssl;
+
+    server_name  partners.stage.softuni.tk;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name ~^(?<name>.+)\.partners.stage.softuni.tk;
+
+    ssl_certificate /etc/letsencrypt/live/development.softuni.tk/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/development.softuni.tk/privkey.pem;
+
+    merge_slashes off;
+    rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
+    large_client_header_buffers 4 16k;
+    access_log /var/log/nginx/access.log json_combined;
+
+    location / {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://partners/;
+    }
+}
+
+server {
+    listen 80;
+
+    server_name ~^(?<name>.+)\.partners.stage.softuni.tk;
+
+    return 301 $scheme://partners.stage.softuni.tk$request_uri;
+}
+
+server {
+    listen 443 ssl;
+
+    server_name ~^(?<name>.+)\.partners.stage.softuni.tk;
+
+    return 301 $scheme://partners.stage.softuni.tk$request_uri;
+}
