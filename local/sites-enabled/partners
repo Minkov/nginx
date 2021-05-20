@@ -1,21 +1,18 @@
 server {
     listen 81;
-    server_name  auth.softuniorg.com;
+
+    server_name  partners.softuniorg.com;
+    # Intentionally commented out with option to revert easily regions selection logic
+    # server_name ~^(?<name>.+)\.partners.softuniorg.com;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
     large_client_header_buffers 4 16k;
     access_log /var/log/nginx/access.log json_combined;
 
-    location /api/ {
-        include /etc/nginx/shared/*;
-
-        proxy_pass http://gateway/api/;
-    }
-
     location / {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://auth/;
+        proxy_pass http://partners/;
     }
 }
