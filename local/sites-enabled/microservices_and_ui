@@ -23,11 +23,3 @@ server {
         proxy_pass http://ui/;
     }
 }
-
-server {
-    listen 80;
-
-    server_name ~^(?<name>.+)\.softuniorg.com;
-
-    return 301 $scheme://softuniorg.com$request_uri;
-}
