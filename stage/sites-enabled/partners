@@ -1,9 +1,9 @@
 server {
     listen 80;
 
-    server_name  helpcenter.qa.softuni.org;
+    server_name  partners.stage.softuni.org;
     # Intentionally commented out with option to revert easily regions selection logic
-    # server_name  ~^(?<name>.+)\.helpcenter.qa.softuni.org;
+    # server_name  ~^(?<name>.+)\.partners.stage.softuni.org;
 
     location / {
         return 301 https://$host$request_uri;
@@ -20,43 +20,37 @@ server {
 
     listen 443 ssl;
 
-    server_name  helpcenter.qa.softuni.org;
+    server_name  partners.stage.softuni.org;
     # Intentionally commented out with option to revert easily regions selection logic
-    # server_name ~^(?<name>.+)\.helpcenter.qa.softuni.org;
+    # server_name ~^(?<name>.+)\.partners.stage.softuni.org;
 
-    ssl_certificate /etc/letsencrypt/live/qa.softuni.org/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/qa.softuni.org/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/stage.softuni.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/stage.softuni.org/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
     large_client_header_buffers 4 16k;
     access_log /var/log/nginx/access.log json_combined;
 
-    location /api/ {
-        include /etc/nginx/shared/*;
-
-        proxy_pass http://gateway/api/;
-    }
-
     location / {
         include /etc/nginx/shared/*;
 
-        proxy_pass http://help_center_ui/;
+        proxy_pass http://partners/;
     }
 }
 
 server {
     listen 80;
 
-    server_name ~^(?<name>.+)\.helpcenter.qa.softuni.org;
+    server_name ~^(?<name>.+)\.partners.stage.softuni.org;
 
-    return 301 $scheme://helpcenter.qa.softuni.org$request_uri;
+    return 301 $scheme://partners.stage.softuni.org$request_uri;
 }
 
 server {
     listen 443 ssl;
 
-    server_name ~^(?<name>.+)\.helpcenter.qa.softuni.org;
+    server_name ~^(?<name>.+)\.partners.stage.softuni.org;
 
-    return 301 $scheme://helpcenter.qa.softuni.org$request_uri;
+    return 301 $scheme://partners.stage.softuni.org$request_uri;
 }
