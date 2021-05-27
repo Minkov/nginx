@@ -1,9 +1,9 @@
 server {
     listen 80;
 
-    server_name  partners.qa.softuni.tk;
+    server_name  partners.qa.softuni.org;
     # Intentionally commented out with option to revert easily regions selection logic
-    # server_name  ~^(?<name>.+)\.partners.qa.softuni.tk;
+    # server_name  ~^(?<name>.+)\.partners.qa.softuni.org;
 
     location / {
         return 301 https://$host$request_uri;
@@ -20,12 +20,12 @@ server {
 
     listen 443 ssl;
 
-    server_name  partners.qa.softuni.tk;
+    server_name  partners.qa.softuni.org;
     # Intentionally commented out with option to revert easily regions selection logic
-    # server_name ~^(?<name>.+)\.partners.qa.softuni.tk;
+    # server_name ~^(?<name>.+)\.partners.qa.softuni.org;
 
-    ssl_certificate /etc/letsencrypt/live/qa.softuni.tk/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/qa.softuni.tk/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/qa.softuni.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/qa.softuni.org/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
@@ -42,15 +42,15 @@ server {
 server {
     listen 80;
 
-    server_name ~^(?<name>.+)\.partners.qa.softuni.tk;
+    server_name ~^(?<name>.+)\.partners.qa.softuni.org;
 
-    return 301 $scheme://partners.qa.softuni.tk$request_uri;
+    return 301 $scheme://partners.qa.softuni.org$request_uri;
 }
 
 server {
     listen 443 ssl;
 
-    server_name ~^(?<name>.+)\.partners.qa.softuni.tk;
+    server_name ~^(?<name>.+)\.partners.qa.softuni.org;
 
-    return 301 $scheme://partners.qa.softuni.tk$request_uri;
+    return 301 $scheme://partners.qa.softuni.org$request_uri;
 }
