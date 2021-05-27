@@ -1,9 +1,9 @@
 server {
     listen 80;
 
-    server_name  helpcenter.softuni.tk;
+    server_name  helpcenter.stage.softuni.org;
     # Intentionally commented out with option to revert easily regions selection logic
-    # server_name  ~^(?<name>.+)\.helpcenter.softuni.tk;
+    # server_name  ~^(?<name>.+)\.helpcenter.stage.softuni.org;
 
     location / {
         return 301 https://$host$request_uri;
@@ -20,12 +20,12 @@ server {
 
     listen 443 ssl;
 
-    server_name  helpcenter.softuni.tk;
+    server_name  helpcenter.stage.softuni.org;
     # Intentionally commented out with option to revert easily regions selection logic
-    # server_name ~^(?<name>.+)\.helpcenter.softuni.tk;
+    # server_name ~^(?<name>.+)\.helpcenter.stage.softuni.org;
 
-    ssl_certificate /etc/letsencrypt/live/softuni.tk/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/softuni.tk/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/stage.softuni.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/stage.softuni.org/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
@@ -48,15 +48,15 @@ server {
 server {
     listen 80;
 
-    server_name ~^(?<name>.+)\.helpcenter.softuni.tk;
+    server_name ~^(?<name>.+)\.helpcenter.stage.softuni.org;
 
-    return 301 $scheme://helpcenter.softuni.tk$request_uri;
+    return 301 $scheme://helpcenter.stage.softuni.org$request_uri;
 }
 
 server {
     listen 443 ssl;
 
-    server_name ~^(?<name>.+)\.helpcenter.softuni.tk;
+    server_name ~^(?<name>.+)\.helpcenter.stage.softuni.org;
 
-    return 301 $scheme://helpcenter.softuni.tk$request_uri;
+    return 301 $scheme://helpcenter.stage.softuni.org$request_uri;
 }
