@@ -1,5 +1,5 @@
 server {
-    listen 81;
+    listen 80;
 
     server_name softuniorg.com;
     # Intentionally commented out with option to revert easily regions selection logic
