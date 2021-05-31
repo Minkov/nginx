@@ -4,12 +4,8 @@ services:
   nginx:
     image: minkov/nginx:latest
     restart: unless-stopped
-    ports:
-      - "127.0.0.1:80:80"
-      - "127.0.0.1:443:443"
     container_name: nginx_container
     restart: on-failure
-    network_mode: host
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./sites-enabled:/etc/nginx/sites-enabled
@@ -20,8 +16,10 @@ services:
       - ./shared:/etc/nginx/shared
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
+    ports:
+      - "81:81"
     extra_hosts:
-      - "localnode: 127.0.0.1"
+      - "host.docker.internal:host-gateway"
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   certbot:
     image: certbot/certbot

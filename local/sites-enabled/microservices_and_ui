@@ -1,5 +1,5 @@
 server {
-    listen 80;
+    listen 81;
 
     server_name softuniorg.com;
     # Intentionally commented out with option to revert easily regions selection logic
@@ -22,12 +22,4 @@ server {
         include /etc/nginx/shared/*;
         proxy_pass http://ui/;
     }
-}
-
-server {
-    listen 80;
-
-    server_name ~^(?<name>.+)\.softuniorg.com;
-
-    return 301 $scheme://softuniorg.com$request_uri;
 }
