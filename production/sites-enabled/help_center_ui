@@ -1,7 +1,7 @@
 server {
     listen 80;
     
-    server_name  helpcenter.app.softuni.org;
+    server_name helpcenter.app.softuni.org;
     # Intentionally commented out with option to revert easily regions selection logic
     # server_name  ~^(?<name>.+)\.helpcenter.app.softuni.org;
 
@@ -43,20 +43,4 @@ server {
 
         proxy_pass http://help_center_ui/;
     }
-}
-
-server {
-    listen 80;
-
-    server_name ~^(?<name>.+)\.helpcenter.app.softuni.org;
-
-    return 301 $scheme://helpcenter.app.softuni.org$request_uri;
-}
-
-server {
-    listen 443 ssl;
-
-    server_name ~^(?<name>.+)\.helpcenter.app.softuni.org;
-
-    return 301 $scheme://helpcenter.app.softuni.org$request_uri;
 }
