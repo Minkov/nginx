@@ -2,8 +2,6 @@ server {
     listen 80;
     
     server_name helpcenter.app.softuni.org;
-    # Intentionally commented out with option to revert easily regions selection logic
-    # server_name  ~^(?<name>.+)\.helpcenter.app.softuni.org;
 
     location / {
         return 301 https://$host$request_uri;
@@ -21,8 +19,6 @@ server {
     listen 443 ssl;
 
     server_name  helpcenter.app.softuni.org;
-    # Intentionally commented out with option to revert easily regions selection logic
-    # server_name ~^(?<name>.+)\.helpcenter.app.softuni.org;
 
     ssl_certificate /etc/letsencrypt/live/app.softuni.org/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/app.softuni.org/privkey.pem;

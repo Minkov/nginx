@@ -9,15 +9,7 @@ proxy_set_header X-Region-Code $geoip2_data_country_code;
 proxy_cache_bypass $http_upgrade;
 proxy_cache_bypass $http_upgrade;
 
-set $region_selected_header "BG";
-
-if ($name = "ro") {
-   set $region_selected_header "RO";
-}
-
-if ($host = "softuni.co.za") {
-   set $region_selected_header "ZA";
-}
+set $region_selected_header " BG";
 
 proxy_set_header X-Region-Selected $region_selected_header;
 
