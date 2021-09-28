@@ -2,6 +2,7 @@ server {
     listen 80;
 
     server_name  softuni.org;
+    server_name nexify.softuni.org;
     # Intentionally commented out with option to revert easily regions selection logic
     # server_name  ~^(?<name>.+)\.softuni.org;
     # server_name softuni.co.za;
@@ -21,7 +22,10 @@ server {
 
     listen 443 ssl;
 
+    large_client_header_buffers 4 32k;
+
     server_name softuni.org;
+    server_name nexify.softuni.org;
     # Intentionally commented out with option to revert easily regions selection logic
     # server_name ~^(?<name>.+)\.softuni.org;
     # server_name softuni.co.za;
@@ -31,7 +35,6 @@ server {
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
-    large_client_header_buffers 4 16k;
     access_log /var/log/nginx/access.log json_combined;
 
     location /api/ {
@@ -40,17 +43,19 @@ server {
         proxy_pass http://gateway/api/;
     }
 
+    # root /etc/nginx/html;
     location / {
     	access_by_lua_file '/etc/nginx/lua/region_based_url.lua';
 
         include /etc/nginx/shared/*;
         proxy_pass http://ui/;
+	#  try_files /index.html =404;
     }
 }
 
 server {
     listen 80;
-
+    
     server_name ~^(?<name>.+)\.softuni.org;
     server_name softuni.co.za;
 
@@ -63,5 +68,5 @@ server {
     server_name ~^(?<name>.+)\.softuni.org;
     server_name softuni.co.za;
 
-    return 301 $scheme://softuni.org$request_uri;
+    return 301 https://partners.softuni.org/register?ref=118;
 }
