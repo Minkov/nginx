@@ -18,8 +18,8 @@ server {
 
     listen 443 ssl;
     server_name  admin.development.softuni.org;
-    ssl_certificate /etc/letsencrypt/live/development.softuni.org/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/development.softuni.org/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/learn.development.softuni.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/learn.development.softuni.org/privkey.pem;
 
     merge_slashes off;
     large_client_header_buffers 4 16k;
