@@ -43,6 +43,7 @@ server {
 
     large_client_header_buffers 4 32k;
 
+    server_name development.softuni.org;
     server_name nexify.development.softuni.org;
     server_name learn.development.softuni.org;
     # Intentionally commented out with option to revert easily regions selection logic
