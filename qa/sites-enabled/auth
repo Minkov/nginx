@@ -18,8 +18,8 @@ server {
 
     listen 443 ssl;
     server_name  auth.qa.softuni.org;
-    ssl_certificate /etc/letsencrypt/live/qa.softuni.org/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/qa.softuni.org/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/learn.qa.softuni.org/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/learn.qa.softuni.org/privkey.pem;
 
     merge_slashes off;
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
