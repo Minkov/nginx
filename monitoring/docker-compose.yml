@@ -12,7 +12,9 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
       - ./sites-enabled:/etc/nginx/sites-enabled
+      - ./modules-enabled:/etc/nginx/modules-enabled
       - ./conf.d:/etc/nginx/conf.d
+      - ./lua:/etc/nginx/lua
       - ./logs:/var/log/nginx
       - ./shared:/etc/nginx/shared
       - ./data/certbot/conf:/etc/letsencrypt
