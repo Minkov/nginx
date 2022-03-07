@@ -1,0 +1,37 @@
+server {
+    listen 80;
+
+    server_name judgesoftuniorg.ml;
+
+    location / {
+      return 301 https://judgesoftuniorg.ml$request_uri;
+    }
+
+    location /.well-known/acme-challenge/ {
+      root /var/www/certbot;
+    }
+}
+
+server {
+    include /etc/letsencrypt/options-ssl-nginx.conf;
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+
+    listen 443 ssl;
+
+    large_client_header_buffers 4 32k;
+
+    server_name judgesoftuniorg.ml;
+
+    ssl_certificate /etc/letsencrypt/live/judgesoftuniorg.ml/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/judgesoftuniorg.ml/privkey.pem;
+
+    merge_slashes off;
+    rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
+    access_log /var/log/nginx/access.log json_combined;
+
+    location /api/ {
+        include /etc/nginx/shared/*;
+
+        proxy_pass http://gateway/api/;
+    }
+}
