@@ -29,9 +29,9 @@ server {
     rewrite ^(.*?)//+(.*?)$ $1/$2 permanent;
     access_log /var/log/nginx/access.log json_combined;
 
-    location /api/ {
-        include /etc/nginx/shared/*;
-
-        proxy_pass http://gateway/api/;
+    location / {
+      include /etc/nginx/shared/*;
+      
+      proxy_pass http://ui/;
     }
 }
